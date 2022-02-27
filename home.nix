@@ -6,6 +6,39 @@
   home.username = "justin.endacott";
   home.homeDirectory = "/Users/justin.endacott";
 
+  home.packages = [
+    # pkgs is the set of all packages in the default home.nix implementation
+    pkgs.tmux
+
+    #pkgs.emacs
+    pkgs.silver-searcher
+    pkgs.alacritty
+    pkgs.fasd
+
+    # Mac Only
+    # Copy *.app files from ~/.nix-profile/Applications
+    pkgs.emacsMacport
+    pkgs.yabai
+    pkgs.skhd
+  ];
+
+  # Home Manger modules
+
+  programs.git = {
+    enable = true;
+
+    userName = "Justin Endacott";
+    userEmail = "justin.endacott@gmail.com";
+
+    aliases = {
+      st = "status";
+    };
+
+    extraConfig = {
+      pull = { ff = "only"; };
+    };
+  };
+
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
   # when a new Home Manager release introduces backwards

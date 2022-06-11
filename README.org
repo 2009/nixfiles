@@ -2,6 +2,8 @@
 
 Search for nix packages using https://search.nixos.org/packages?channel=unstable
 
+Cleanup generations https://nixos.org/manual/nix/stable/package-management/garbage-collection.html
+
 * Nix Cheatsheet
 
 | Command                                         | Description                                                                                           |
@@ -9,6 +11,8 @@ Search for nix packages using https://search.nixos.org/packages?channel=unstable
 | =nix-env -q=                                    | List nix installed packages                                                                           |
 | =nix-channel --update=                          | Updates channels to get latest package versions, run =darwin-rebuild switch= to installe new versions |
 | =darwin-rebuild switch -I darwin-config=<PATH>= | Use new configuration and install packages                                                            |
+| =nix-collect-garbage --delete-old=              | Delete all old generations and cleans up system                                                       |
+
 
 * OSX Cheatsheet
 

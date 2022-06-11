@@ -1,5 +1,7 @@
 { config, pkgs, ... }:
 
+# TODO: Not used for MACOX, remove mac related stuff
+
 {
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
@@ -8,7 +10,6 @@
 
   home.packages = [
     # pkgs is the set of all packages in the default home.nix implementation
-    pkgs.tmux
 
     #pkgs.emacs
     pkgs.silver-searcher
@@ -17,7 +18,10 @@
 
     # Mac Only
     # Copy *.app files from ~/.nix-profile/Applications
+    # TODO conditionally install emacsMacport/emacs package
     pkgs.emacsMacport
+    # TODO use nix-darwin to allow starting this automatically
+    # https://github.com/cmacrae/config/blob/master/modules/macintosh.nix
     pkgs.yabai
     pkgs.skhd
   ];

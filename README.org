@@ -15,3 +15,18 @@ Search for nix packages using https://search.nixos.org/packages?channel=unstable
 | Command                                  | Description             |
 |------------------------------------------+-------------------------|
 | =softwareupdate --all --install --force= | Update OSX and software |
+
+* Packages to move
+** google-chrome
+** anki
+** gimp
+** inkscape
+
+* OSX Missing from Nix
+** RVM
+** NVM
+** localstack w/ awslocal
+** docker desktop
+
+** brew
+** keepingyouawake (brew)

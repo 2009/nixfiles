@@ -56,6 +56,26 @@
       pkgs.silver-searcher
       pkgs.fasd
       pkgs.git
+
+      pkgs.mpv
+      pkgs.ffmpeg
+
+      #  working with JSON
+      pkgs.fx
+      pkgs.jq
+
+      # JS development
+      pkgs.yarn
+      pkgs.nodePackages.prettier
+      pkgs.nodePackages.js-beautify
+      pkgs.nodePackages.typescript
+
+      #---- Work stuff (outfit) -----
+      pkgs.imagemagick
+      pkgs.circleci-cli
+
+      # pdfs
+      pkgs.poppler_utils
     ];
 
     #programs.alacritty = {

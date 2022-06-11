@@ -1,0 +1,12 @@
+* Nix Resources
+
+Search for nix packages using https://search.nixos.org/packages?channel=unstable
+
+* Nix Cheatsheet
+
+| Command                                                                          | Description                      |
+|----------------------------------------------------------------------------------+----------------------------------|
+| =nix-env -q=                                                                     | List nix installed packages      |
+| =darwin-rebuild switch -I darwin-config=$HOME/nixfiles/darwin/configuration.nix= | Update and use new configuration |
+
+

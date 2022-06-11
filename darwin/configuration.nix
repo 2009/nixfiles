@@ -70,6 +70,8 @@
       pkgs.nodePackages.js-beautify
       pkgs.nodePackages.typescript
 
+      pkgs.elmPackages.elm
+
       #---- Work stuff (outfit) -----
       pkgs.imagemagick
       pkgs.circleci-cli

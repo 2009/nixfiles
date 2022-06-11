@@ -4,9 +4,14 @@ Search for nix packages using https://search.nixos.org/packages?channel=unstable
 
 * Nix Cheatsheet
 
-| Command                                                                          | Description                      |
-|----------------------------------------------------------------------------------+----------------------------------|
-| =nix-env -q=                                                                     | List nix installed packages      |
-| =darwin-rebuild switch -I darwin-config=$HOME/nixfiles/darwin/configuration.nix= | Update and use new configuration |
+| Command                                         | Description                                                                                           |
+|-------------------------------------------------+-------------------------------------------------------------------------------------------------------|
+| =nix-env -q=                                    | List nix installed packages                                                                           |
+| =nix-channel --update=                          | Updates channels to get latest package versions, run =darwin-rebuild switch= to installe new versions |
+| =darwin-rebuild switch -I darwin-config=<PATH>= | Use new configuration and install packages                                                            |
 
+* OSX Cheatsheet
 
+| Command                                  | Description             |
+|------------------------------------------+-------------------------|
+| =softwareupdate --all --install --force= | Update OSX and software |

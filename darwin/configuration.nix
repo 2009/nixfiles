@@ -73,6 +73,7 @@
       #---- Work stuff (outfit) -----
       pkgs.imagemagick
       pkgs.circleci-cli
+      pkgs.awscli2
 
       # pdfs
       pkgs.poppler_utils

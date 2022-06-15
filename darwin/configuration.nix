@@ -76,6 +76,8 @@
       pkgs.imagemagick
       pkgs.circleci-cli
       pkgs.awscli2
+      pkgs.saml2aws
+      pkgs.postgresql
 
       # pdfs
       pkgs.poppler_utils

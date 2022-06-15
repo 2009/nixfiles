@@ -71,6 +71,7 @@
       pkgs.nodePackages.typescript
 
       pkgs.elmPackages.elm
+      pkgs.elmPackages.elm-format
 
       #---- Work stuff (outfit) -----
       pkgs.imagemagick

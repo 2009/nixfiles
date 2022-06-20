@@ -66,12 +66,14 @@
 
       # JS development
       pkgs.yarn
-      pkgs.nodePackages.prettier
       pkgs.nodePackages.js-beautify
       pkgs.nodePackages.typescript
 
       pkgs.elmPackages.elm
       pkgs.elmPackages.elm-format
+
+      # use ruby gem to include @prettier/plugin-ruby
+      pkgs.rubyPackages.prettier
 
       #---- Work stuff (outfit) -----
       pkgs.imagemagick

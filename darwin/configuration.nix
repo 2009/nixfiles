@@ -12,6 +12,24 @@
       pkgs.emacsMacport
     ];
 
+  system.defaults = {
+    dock.autohide = true;
+
+    # Don't rearrange spaces by most recent
+    dock.mru-spaces = false;
+
+    # Autohide top menubar
+    NSGlobalDomain._HIHideMenuBar = true;
+    NSGlobalDomain.AppleInterfaceStyle = "Dark";
+
+    # Show file extensions and hidden files in finder
+    finder.AppleShowAllExtensions = true;
+    finder.AppleShowAllFiles = true;
+    finder.ShowPathbar = true;
+    # Hide desktop icons
+    finder.CreateDesktop = false;
+  };
+
   # Use a custom configuration.nix location.
   # $ darwin-rebuild switch -I darwin-config=$HOME/.config/nixpkgs/darwin/configuration.nix
   environment.darwinConfig = "$HOME/nixfiles/darwin/configuration.nix";

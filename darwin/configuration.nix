@@ -55,10 +55,14 @@
   launchd.user.agents.yabai.serviceConfig.StandardErrorPath = "/tmp/yabai.log";
   launchd.user.agents.yabai.serviceConfig.StandardOutPath = "/tmp/yabai.log";
 
-  services.skhd.enable = true;
   # TODO this must be how we reaad a file directly into the configuration
   # This seems to pickup the config file ~/.skhd so no need to read it in here
   #services.skhd.skhdConfig = builtins.readFile ../conf.d/skhd.conf;
+
+  services.skhd.enable = true;
+
+  launchd.user.agents.skhd.serviceConfig.StandardErrorPath = "/tmp/skhd.log";
+  launchd.user.agents.skhd.serviceConfig.StandardOutPath = "/tmp/skhd.log";
 
   environment.etc = {
     # yabai need to be run with sudo without pass to work correctly

@@ -41,6 +41,10 @@
   # Create /etc/bashrc that loads the nix-darwin environment.
   # programs.zsh.enable = true;  # default shell on catalina
   # programs.fish.enable = true;
+  programs.vim.enable = true;
+  # FIXME This option for default config don't seem to work, instead include a
+  # simple config ourselves
+  programs.vim.enableSensible = true;
 
   services.yabai = {
     enable = true;

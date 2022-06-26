@@ -72,6 +72,27 @@
     home = "/Users/justin.endacott";
   };
 
+
+  homebrew = {
+    enable = true;
+    autoUpdate = true;
+    cleanup = "uninstall";
+    brews = [ "localstack" ];
+    casks = [
+      "keepingyouawake"
+
+      # TODO could we use a nix package for these and launcher?
+      "spark"
+      "docker"
+      "slack"
+      "anki"
+      # TODO chrome (where is profile information stored?)
+      # TODO postman (where is configuration stored?)
+    ];
+    masApps = {};
+    taps = [];
+  };
+
   home-manager.users."justin.endacott" = { pkgs, lib, ... }: {
     home.packages = [
       pkgs.source-code-pro
@@ -107,12 +128,6 @@
       # pdfs
       pkgs.poppler_utils
     ];
-
-    #programs.alacritty = {
-    #  enable = true;
-    #};
-
-    #programs.emacs.enable = true;
 
     home.activation = {
       #myActivationAction = lib.hm.dag.entryAfter ["writeBoundary"] ''

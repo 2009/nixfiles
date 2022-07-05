@@ -55,7 +55,7 @@
   launchd.user.agents.yabai.serviceConfig.StandardErrorPath = "/tmp/yabai.log";
   launchd.user.agents.yabai.serviceConfig.StandardOutPath = "/tmp/yabai.log";
 
-  # TODO this must be how we reaad a file directly into the configuration
+  # TODO this must be how we read a file directly into the configuration
   # This seems to pickup the config file ~/.skhd so no need to read it in here
   #services.skhd.skhdConfig = builtins.readFile ../conf.d/skhd.conf;
 
@@ -120,7 +120,12 @@
     enable = true;
     autoUpdate = true;
     cleanup = "uninstall";
-    brews = [ "localstack" ];
+    brews = [
+      # needed by rvm/ruby
+      "gmp"
+      "libyaml"
+      "openssl@1.1"
+    ];
     casks = [
       "keepingyouawake"
 

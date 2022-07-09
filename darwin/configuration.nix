@@ -2,7 +2,10 @@
 
 {
   # https://nix-community.github.io/home-manager/index.html#sec-install-nix-darwin-module
-  imports = [ <home-manager/nix-darwin> ];
+  imports = [
+    <home-manager/nix-darwin>
+    ./services/sketchybar.nix
+  ];
 
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
@@ -11,6 +14,9 @@
       pkgs.alacritty
       pkgs.emacsMacport
     ];
+
+  # custom packages
+  nixpkgs.overlays = [ (import ./pkgs) ];
 
   system.defaults = {
     dock.autohide = true;
@@ -64,6 +70,11 @@
   launchd.user.agents.skhd.serviceConfig.StandardErrorPath = "/tmp/skhd.log";
   launchd.user.agents.skhd.serviceConfig.StandardOutPath = "/tmp/skhd.log";
 
+  services.sketchybar.enable = true;
+  services.sketchybar.package = pkgs.sketchybar;
+
+  launchd.user.agents.sketchybar.serviceConfig.StandardErrorPath = "/tmp/sketchybar.log";
+  launchd.user.agents.sketchybar.serviceConfig.StandardOutPath = "/tmp/sketchybar.log";
 
   environment.etc = {
     # yabai need to be run with sudo without pass to work correctly

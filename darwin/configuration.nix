@@ -148,6 +148,7 @@
 
       pkgs.silver-searcher
       pkgs.fasd
+      pkgs.bat # better cat
       pkgs.git
 
       pkgs.mpv

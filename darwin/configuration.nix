@@ -54,7 +54,7 @@
 
   services.yabai = {
     enable = true;
-    package = pkgs.yabai;
+    package = pkgs.yabai4;
     enableScriptingAddition = true;
   };
 

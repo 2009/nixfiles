@@ -18,6 +18,10 @@
   # custom packages
   nixpkgs.overlays = [ (import ./pkgs) ];
 
+	nix.extraOptions = ''
+    experimental-features = nix-command flakes
+  '';
+
   system.defaults = {
     dock.autohide = true;
 
@@ -32,8 +36,10 @@
     finder.AppleShowAllExtensions = true;
     finder.AppleShowAllFiles = true;
     finder.ShowPathbar = true;
-    # Hide desktop icons
-    finder.CreateDesktop = false;
+
+    # Needed for yaibai to be able to switch to a display with no windows
+    finder.CreateDesktop = true;
+    screencapture.location = "$HOME/workfiles/Screenshots";
   };
 
   # Use a custom configuration.nix location.
@@ -70,6 +76,7 @@
   launchd.user.agents.skhd.serviceConfig.StandardErrorPath = "/tmp/skhd.log";
   launchd.user.agents.skhd.serviceConfig.StandardOutPath = "/tmp/skhd.log";
 
+  # TODO need to break these out and work out how to structure folder
   services.sketchybar.enable = true;
   services.sketchybar.package = pkgs.sketchybar;
 
@@ -98,6 +105,9 @@
       "gmp"
       "libyaml"
       "openssl@1.1"
+
+      # stacked commits with git
+      "withgraphite/tap/graphite"
     ];
     casks = [
       "keepingyouawake"
@@ -135,11 +145,14 @@
       pkgs.yarn
       pkgs.nodePackages.js-beautify
       pkgs.nodePackages.typescript
+      pkgs.nodePackages.eslint
 
       pkgs.elmPackages.elm
       pkgs.elmPackages.elm-format
 
       # use ruby gem to include @prettier/plugin-ruby
+      # FIXME: this doesn't seem to be available, installed with yarn for now
+      # NOTE: this might install to the gemset being used when running darwin-rebuild
       pkgs.rubyPackages.prettier
 
       #---- Work stuff (outfit) -----
@@ -151,6 +164,8 @@
 
       # pdfs
       pkgs.poppler_utils
+      pkgs.exiftool
+      pkgs.pdftk
     ];
 
     home.activation = {

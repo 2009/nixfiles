@@ -1,0 +1,214 @@
+# ################################################################ #
+# THE FOLLOWING IS AN EXPLANATION OF THE GRAMMAR THAT SKHD PARSES. #
+# FOR SIMPLE EXAMPLE MAPPINGS LOOK FURTHER DOWN THIS FILE..        #
+# ################################################################ #
+
+# A list of all built-in modifier and literal keywords can
+# be found at https://github.com/koekeishiya/skhd/issues/1
+#
+# A hotkey is written according to the following rules:
+#
+#   hotkey       = <mode> '<' <action> | <action>
+#
+#   mode         = 'name of mode' | <mode> ',' <mode>
+#
+#   action       = <keysym> '[' <proc_map_lst> ']' | <keysym> '->' '[' <proc_map_lst> ']'
+#                  <keysym> ':' <command>          | <keysym> '->' ':' <command>
+#                  <keysym> ';' <mode>             | <keysym> '->' ';' <mode>
+#
+#   keysym       = <mod> '-' <key> | <key>
+#
+#   mod          = 'modifier keyword' | <mod> '+' <mod>
+#
+#   key          = <literal> | <keycode>
+#
+#   literal      = 'single letter or built-in keyword'
+#
+#   keycode      = 'apple keyboard kVK_<Key> values (0x3C)'
+#
+#   proc_map_lst = * <proc_map>
+#
+#   proc_map     = <string> ':' <command> | <string>     '~' |
+#                  '*'      ':' <command> | '*'          '~'
+#
+#   string       = '"' 'sequence of characters' '"'
+#
+#   command      = command is executed through '$SHELL -c' and
+#                  follows valid shell syntax. if the $SHELL environment
+#                  variable is not set, it will default to '/bin/bash'.
+#                  when bash is used, the ';' delimeter can be specified
+#                  to chain commands.
+#
+#                  to allow a command to extend into multiple lines,
+#                  prepend '\' at the end of the previous line.
+#
+#                  an EOL character signifies the end of the bind.
+#
+#   ->           = keypress is not consumed by skhd
+#
+#   *            = matches every application not specified in <proc_map_lst>
+#
+#   ~            = application is unbound and keypress is forwarded per usual, when specified in a <proc_map>
+#
+# A mode is declared according to the following rules:
+#
+#   mode_decl = '::' <name> '@' ':' <command> | '::' <name> ':' <command> |
+#               '::' <name> '@'               | '::' <name>
+#
+#   name      = desired name for this mode,
+#
+#   @         = capture keypresses regardless of being bound to an action
+#
+#   command   = command is executed through '$SHELL -c' and
+#               follows valid shell syntax. if the $SHELL environment
+#               variable is not set, it will default to '/bin/bash'.
+#               when bash is used, the ';' delimeter can be specified
+#               to chain commands.
+#
+#               to allow a command to extend into multiple lines,
+#               prepend '\' at the end of the previous line.
+#
+#               an EOL character signifies the end of the bind.
+# ################################################################ #
+
+# The following link is a great example of using spacemacs style cords:
+# https://github.com/nikhgupta/dotfiles/blob/osx/config/skhd/skhdrc
+
+# TODO learn how nix-shell and installing packages with nix-env works
+# TODO Could we remap CAPS_LOCK to cmd + m? (coudl use karabina)
+# TODO Should we use <action> <type> <direction> (i.e. m: move, w: window, j: down) instead of <type> <?shift> <direction> (i.e. w: window, ?shift: (focus/move), j: down)? We should follow the spacemacs setup.
+
+# TODO keybinding to minimize window, or send to a junk desktop
+# TODO desktop move mode, need a good way to tell the desktop is being moved
+# TODO toggle mode
+# TODO try out spacebar as a topbar https://github.com/cmacrae/spacebar/tree/8431008fcf97ba57228a21d212bfd1738db6e7c9
+# TODO try out choose for an application launcher https://github.com/chipsenkbeil/choose/tree/ec6b36631a16cad0ba22e0e0b9c38703f727047b
+
+# open terminal
+#cmd - return : ~/Applications/Nix\ Apps/Alacritty.app/Contents/MacOS/alacritty
+cmd - return : /Applications/Alacritty.app/Contents/MacOS/alacritty
+
+# focus window
+cmd - h : yabai -m window --focus west
+cmd - j : yabai -m window --focus south
+cmd - k : yabai -m window --focus north
+cmd - l : yabai -m window --focus east
+
+# focus monitor using [ (0x21) and ] (0x1E)
+cmd - 0x21  : yabai -m display --focus next
+cmd - 0x1E  : yabai -m display --focus prev
+
+# send window to monitor and follow focus
+shift + cmd - 0x21  : yabai -m window --display next; yabai -m display --focus next
+shift + cmd - 0x1E  : yabai -m window --display prev; yabai -m display --focus prev
+
+#ctrl + cmd - 0x21  : yabai -m space --focus prev
+#ctrl + cmd - 0x1E  : yabai -m space --focus next
+ctrl + cmd - 0x21  : ~/focus_space_same_display.sh prev
+ctrl + cmd - 0x1E  : ~/focus_space_same_display.sh next
+
+#### Modes #########################################################
+
+:: default : yabai -m config active_window_border_color 0xFF6699CC
+:: mode_select @ : yabai -m config active_window_border_color 0xFFFAC863
+
+# TODO different colors for modes
+:: apps         @ : yabai -m config active_window_border_color 0xFFFAC8FF
+:: desktop      @ : yabai -m config active_window_border_color 0xFFFAC8FF
+:: window       @ : yabai -m config active_window_border_color 0xFFFAC8FF
+:: window_move  @ : yabai -m config active_window_border_color 0xFFFAC8FF
+:: resize       @ : yabai -m config active_window_border_color 0xFFFAC8FF
+
+# mode_select keybindings
+cmd - m ; mode_select
+
+# Passthrough default mac keybindings
+:: passthrough : yabai -m config active_window_border_color 0xFFFAC863
+cmd + ctrl - t ; passthrough
+passthrough < escape ; default
+passthrough < cmd + ctrl - t ; default
+
+# ESC or cmd -m to exit all modes
+mode_select < escape ; default
+mode_select < cmd - m ; default
+apps, desktop, window, window_move, resize < escape  ; default
+apps, desktop, window, window_move, resize < cmd - m ; default
+
+mode_select < a ; apps
+mode_select < d ; desktop
+mode_select < w ; window
+mode_select < r ; resize
+
+window < m ; window_move
+
+# TODO how can we include this in path?
+apps < e : ~/.nix-profile/bin/skhd -k escape ; ~/Applications/Nix\ Apps/Emacs.app/Contents/MacOS/Emacs.sh
+apps < c : ~/.nix-profile/bin/skhd -k escape ; /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome
+
+desktop < x : yabai -m space --destroy ; ~/.nix-profile/bin/skhd -k escape
+desktop < n : yabai -m space --create ; yabai -m space --focus last ; ~/.nix-profile/bin/skhd -k escape
+desktop < d : yabai -m space --toggle show-desktop ; ~/.nix-profile/bin/skhd -k 'escape'
+
+# swap window
+window < h : yabai -m window --swap west  ; ~/.nix-profile/bin/skhd -k escape
+window < j : yabai -m window --swap south ; ~/.nix-profile/bin/skhd -k escape
+window < k : yabai -m window --swap north ; ~/.nix-profile/bin/skhd -k escape
+window < l : yabai -m window --swap east  ; ~/.nix-profile/bin/skhd -k escape
+# rotate tree
+window < r         : yabai -m space --rotate 270
+window < shift - r : yabai -m space --rotate 90
+
+window < f         : yabai -m window --toggle zoom-fullscreen   ; ~/.nix-profile/bin/skhd -k escape
+window < shift - f : yabai -m window --toggle native-fullscreen ; ~/.nix-profile/bin/skhd -k escape
+# TODO add a toggle mode for float and sticky
+window < ctrl - f  : yabai -m window --toggle float  ; ~/.nix-profile/bin/skhd -k escape
+window < s         : yabai -m window --toggle sticky ; ~/.nix-profile/bin/skhd -k escape
+window < x         : yabai -m window --close         ; ~/.nix-profile/bin/skhd -k escape
+
+# move window (changes splits)
+window < shift - h : yabai -m window --warp west  ; ~/.nix-profile/bin/skhd -k escape
+window < shift - j : yabai -m window --warp south ; ~/.nix-profile/bin/skhd -k escape
+window < shift - k : yabai -m window --warp north ; ~/.nix-profile/bin/skhd -k escape
+window < shift - l : yabai -m window --warp east  ; ~/.nix-profile/bin/skhd -k escape
+
+# zooms window to cover child windows
+window < z : yabai -m window --toggle zoom-parent ; ~/.nix-profile/bin/skhd -k escape
+
+# move window to desktop
+# < (0x2B), > (0x2F) to move left and right
+# TODO exit mode when no longer holding down shift key
+window < shift - 0x2B : yabai -m window --space prev ; yabai -m space --focus prev
+window < shift - 0x2F : yabai -m window --space next ; yabai -m space --focus next
+
+# move window - we do not exit this mode automatically.
+window_move < h : yabai -m window --space prev ; yabai -m space --focus prev
+window_move < j : yabai -m window --display prev ; yabai -m display --focus prev
+window_move < k : yabai -m window --display next ; yabai -m display --focus next
+window_move < l : yabai -m window --space next ; yabai -m space --focus next
+
+# resize window - we do not exit this mode automatically.
+# FIXME resizes based on ther direction of the window edge, could this become a generic increase/decrease
+# TODO could we also change focus in this mode?
+resize < h         : yabai -m window --resize left:-20:0
+resize < j         : yabai -m window --resize bottom:0:20
+resize < k         : yabai -m window --resize top:0:-20
+resize < l         : yabai -m window --resize right:20:0
+resize < shift - h : yabai -m window --resize left:20:0
+resize < shift - j : yabai -m window --resize bottom:0:-20
+resize < shift - k : yabai -m window --resize top:0:20
+resize < shift - l : yabai -m window --resize right:-20:0
+resize < return    : yabai -m space --balance; ~/.nix-profile/bin/skhd -k 'escape'
+# toggle window to make it float and center
+resize < c         : yabai -m window --toggle float; yabai -m window --grid 4:4:1:1:2:2; ~/.nix-profile/bin/skhd -k 'escape'
+
+#### Below Needs Cleanup ##################################################
+
+# toggle window split type
+alt - e : yabai -m window --toggle split
+
+# puts window on all desktops in top right min window
+# TODO would be better with border
+alt - p : yabai -m window --toggle sticky  ; \
+          yabai -m window --toggle topmost ; \
+          yabai -m window --toggle border  ; \
+          yabai -m window --toggle pip

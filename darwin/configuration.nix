@@ -11,8 +11,8 @@
   # $ nix-env -qaP | grep wget
   environment.systemPackages =
     [
-      pkgs.alacritty
-      pkgs.emacsMacport
+      #pkgs.alacritty
+      #pkgs.emacsMacport
     ];
 
   # custom packages
@@ -90,9 +90,9 @@
     '';
   };
 
-  users.users."justin.endacott" = {
+  users.users.jendacott = {
     name = "justin.endacott";
-    home = "/Users/justin.endacott";
+    home = "/Users/jendacott";
   };
 
 
@@ -113,10 +113,14 @@
       "keepingyouawake"
 
       # TODO could we use a nix package for these and launcher?
+      "emacs"
+      "alacritty"
       "spark"
       "docker"
-      "slack"
+      #"slack"
       "anki"
+      "postman"
+      "aws-vpn-client"
       # TODO chrome (where is profile information stored?)
       # TODO postman (where is configuration stored?)
     ];
@@ -124,7 +128,17 @@
     taps = [];
   };
 
-  home-manager.users."justin.endacott" = { pkgs, lib, ... }: {
+  home-manager.users.jendacott = { pkgs, lib, config, ... }: {
+    home.stateVersion = "22.05";
+
+    # dotfiles
+    home.file.".spacemacs".source = config.lib.file.mkOutOfStoreSymlink ./dotfiles/spacemacs;
+    home.file.".skhdrc".source = config.lib.file.mkOutOfStoreSymlink ./dotfiles/skhdrc;
+    home.file.".yabairc".source = config.lib.file.mkOutOfStoreSymlink ./dotfiles/yabairc;
+
+    # TODO needs zsh configured through nix
+    programs.zsh.oh-my-zsh.enable = true;
+
     home.packages = [
       pkgs.source-code-pro
       pkgs.font-awesome
@@ -160,7 +174,7 @@
       pkgs.circleci-cli
       pkgs.awscli2
       pkgs.saml2aws
-      pkgs.postgresql
+      pkgs.postgresql # used for pgsql client
 
       # pdfs
       pkgs.poppler_utils

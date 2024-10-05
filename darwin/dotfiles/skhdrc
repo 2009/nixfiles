@@ -104,8 +104,8 @@ shift + cmd - 0x1E  : yabai -m window --display prev; yabai -m display --focus p
 
 #ctrl + cmd - 0x21  : yabai -m space --focus prev
 #ctrl + cmd - 0x1E  : yabai -m space --focus next
-ctrl + cmd - 0x21  : ~/nixfiles/darwin/dotfiles/yabai/focus_space_same_display.sh prev
-ctrl + cmd - 0x1E  : ~/nixfiles/darwin/dotfiles/yabai/focus_space_same_display.sh next
+#ctrl + cmd - 0x21  : ~/nixfiles/darwin/dotfiles/yabai/focus_space_same_display.sh prev
+#ctrl + cmd - 0x1E  : ~/nixfiles/darwin/dotfiles/yabai/focus_space_same_display.sh next
 
 #### Modes #########################################################
 

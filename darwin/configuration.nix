@@ -4,7 +4,7 @@
   # https://nix-community.github.io/home-manager/index.html#sec-install-nix-darwin-module
   imports = [
     <home-manager/nix-darwin>
-    ./services/sketchybar.nix
+    #./services/sketchybar.nix
   ];
 
   # List packages installed in system profile. To search by name, run:
@@ -29,7 +29,8 @@
     dock.mru-spaces = false;
 
     # Autohide top menubar
-    NSGlobalDomain._HIHideMenuBar = true;
+    #NSGlobalDomain._HIHideMenuBar = true;
+    NSGlobalDomain._HIHideMenuBar = false;
     NSGlobalDomain.AppleInterfaceStyle = "Dark";
 
     # Show file extensions and hidden files in finder
@@ -60,7 +61,7 @@
 
   services.yabai = {
     enable = true;
-    package = pkgs.yabai4;
+    #package = pkgs.yabai4;
     enableScriptingAddition = true;
   };
 
@@ -91,38 +92,56 @@
   };
 
   users.users.jendacott = {
-    name = "justin.endacott";
+    name = "jendacott";
     home = "/Users/jendacott";
   };
 
 
   homebrew = {
     enable = true;
-    autoUpdate = true;
-    cleanup = "uninstall";
-    brews = [
-      # needed by rvm/ruby
-      "gmp"
-      "libyaml"
-      "openssl@1.1"
 
-      # stacked commits with git
-      "withgraphite/tap/graphite"
+    onActivation = {
+      autoUpdate = true;
+      cleanup = "uninstall";
+      upgrade = true;
+    };
+
+    brews = [
+      # rbenv deps
+      "ruby-build"
+
+  #    # node-canvas
+  #    "pkg-config"
+  #    "cairo"
+  #    "pango"
+  #    "libpng"
+  #    "jpeg"
+  #    "giflib"
+  #    "librsvg"
+
+      "fontforge"
+      "postgresql"
+      "gh"
+
+      # work
+      "mutagen-io/mutagen/mutagen"
+      "tfenv"
+      "tgenv"
+      "goenv"
     ];
     casks = [
       "keepingyouawake"
+      "raycast"
 
-      # TODO could we use a nix package for these and launcher?
+      "visual-studio-code"
+
       "emacs"
       "alacritty"
-      "spark"
       "docker"
-      #"slack"
+      "flameshot"
       "anki"
-      "postman"
-      "aws-vpn-client"
-      # TODO chrome (where is profile information stored?)
       # TODO postman (where is configuration stored?)
+      "postman"
     ];
     masApps = {};
     taps = [];
@@ -140,13 +159,24 @@
     programs.zsh.oh-my-zsh.enable = true;
 
     home.packages = [
+      pkgs.home-manager
       pkgs.source-code-pro
       pkgs.font-awesome
 
+      pkgs.ripgrep
       pkgs.silver-searcher
       pkgs.fasd
       pkgs.bat # better cat
       pkgs.git
+      pkgs.tree
+      pkgs.wget
+
+      # stuff to try
+      pkgs.lazydocker
+      pkgs.lazygit
+      pkgs.fzf
+
+      pkgs.gnupg
 
       pkgs.mpv
       pkgs.ffmpeg
@@ -156,13 +186,16 @@
       pkgs.jq
 
       # JS development
-      pkgs.yarn
+      #pkgs.yarn
       pkgs.nodePackages.js-beautify
       pkgs.nodePackages.typescript
       pkgs.nodePackages.eslint
 
       pkgs.elmPackages.elm
       pkgs.elmPackages.elm-format
+
+      pkgs.rbenv
+      pkgs.pyenv
 
       # use ruby gem to include @prettier/plugin-ruby
       # FIXME: this doesn't seem to be available, installed with yarn for now
@@ -173,13 +206,31 @@
       pkgs.imagemagick
       pkgs.circleci-cli
       pkgs.awscli2
-      pkgs.saml2aws
-      pkgs.postgresql # used for pgsql client
+      pkgs.google-cloud-sdk
+      #pkgs.postgresql # used for pgsql client
+
+      # outfit npm install
+      #pkgs.python2
+      #pkgs.pkg-config
+      #pkgs.pixman
 
       # pdfs
       pkgs.poppler_utils
       pkgs.exiftool
-      pkgs.pdftk
+      pkgs.ghostscript
+      pkgs.mupdf
+      # FIXME disabling as this package has vulnerabilities
+      #pkgs.pdftk
+      pkgs.pdfminer
+
+      # fonts
+      #pkgs.fontforge
+      #pkgs.woff2
+      #pkgs.lcdf-typetools
+
+      # infra
+      pkgs.terraform
+      pkgs.terraform-docs
     ];
 
     home.activation = {

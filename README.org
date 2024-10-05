@@ -12,7 +12,23 @@ Cleanup generations https://nixos.org/manual/nix/stable/package-management/garba
 | =nix-channel --update=                          | Updates channels to get latest package versions, run =darwin-rebuild switch= to installe new versions |
 | =darwin-rebuild switch -I darwin-config=<PATH>= | Use new configuration and install packages                                                            |
 | =nix-collect-garbage --delete-old=              | Delete all old generations and cleans up system                                                       |
+| =sudo nix-collect-garbage --delete-old=         | Delete all old generation for *nix darwin*, see: https://github.com/LnL7/nix-darwin/issues/237#issuecomment-716257960 |
+| =home-manager expire-generations <TIMESTAMP>=   | Delete all old home-manager generations                                                               |
+| =nix-store --query --referrers <store-pkg-dir>= | Find which package installed a dependency                                                             |
+| =nix profile wipe-history=                      | Remove old nix profile versions
 
+* Nix Troublshooting
+
+** Missing Attribute error
+
+Sometimes you can get a missing attribute error due to `nixpkgs` channels missing from the channel list.
+
+`nix-channels --list`
+
+This should show a channel for `nix-darwin`, `home-manager` and `nixpkgs`. To add the required channels for
+`nixpkgs` run the following and then update all channels:
+
+`nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixpkgs`
 
 * OSX Cheatsheet
 

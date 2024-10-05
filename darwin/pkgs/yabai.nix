@@ -2,7 +2,7 @@
 
 stdenv.mkDerivation rec {
   pname = "yabai";
-  version = "4.0.1";
+  version = "7.1.1";
 
   #replace = {
   #  "aarch64-darwin" = "--replace '-arch x86_64' ''";

@@ -7,16 +7,16 @@ let
 in
 {
   options = with types; {
-    services.sketchybar.enable = mkOption {
-      type = bool;
-      default = false;
-      description = "Whether to enable the sketcybar status bar.";
-    };
+    #services.sketchybar.enable = mkOption {
+    #  type = bool;
+    #  default = false;
+    #  description = "Whether to enable the sketcybar status bar.";
+    #};
 
-    services.sketchybar.package = mkOption {
-      type = path;
-      description = "The sketchybar package to use.";
-    };
+    #services.sketchybar.package = mkOption {
+    #  type = path;
+    #  description = "The sketchybar package to use.";
+    #};
 
     # TODO this currently does not work and requires configuration in ~/.config/sketchybarrc
     services.sketchybar.config = mkOption {
